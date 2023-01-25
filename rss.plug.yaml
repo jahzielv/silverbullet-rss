@@ -1,9 +1,9 @@
-name: hello-world
+name: rss
 version: 0.1
 imports:
   - https://get.silverbullet.md/global.plug.json
 functions:
-  helloWorld:
-    path: "./hello.ts:helloWorld"
+  rss:
+    path: "./rss.ts:rss"
     command:
-      name: "Say hello"
+      name: "Sync RSS Feeds"
