@@ -8,20 +8,33 @@ async function processFeed(
   lastUpdated: number,
 ): Promise<string> {
   const parsed = await parseFeed(feedXML);
-  const stringified = [`# [${parsed.title?.value || parsed.id}](${parsed.id})`, 
+  const stringified = [
+    `# [${parsed.title?.value || parsed.id}](${parsed.id})`,
     ...parsed.entries.filter((e) =>
       (e.updated || new Date()) >= new Date(lastUpdated)
     ).map(
       (e) => {
         return `[${e.title?.value || e.id}](${e.id})`;
       },
-    )]
-    if (stringified.length === 1) {
-      // then we only have the title
-      stringified.push('nothing new...')
-    }
+    ),
+  ];
+  if (stringified.length === 1) {
+    // then we only have the title
+    stringified.push("nothing new...");
+  }
 
-    return stringified.join('\n')
+  return stringified.join("\n");
+}
+
+function isValidHttpUrl(testing: string | undefined): boolean {
+  if (!testing) return false;
+  let url;
+  try {
+    url = new URL(testing);
+  } catch (_) {
+    return false;
+  }
+  return url.protocol === "http:" || url.protocol === "https:";
 }
 
 const RSS_PAGE = "RSS";
@@ -37,7 +50,7 @@ export async function rss() {
     try {
       const resp = await fetch(url);
       const feedXML = await resp.text();
-      return processFeed(feedXML, rssSettings.lastUpdated)
+      return processFeed(feedXML, rssSettings.lastUpdated);
     } catch (err) {
       await editor.flashNotification(
         `unable to fetch or process feed at ${url}: ${err}`,
@@ -60,4 +73,26 @@ export async function rss() {
   await editor.flashNotification(
     "RSS feeds updated!",
   );
+}
+
+export async function addRssFeed() {
+  const feedUrl = await editor.prompt("Enter new RSS Feed URL", "");
+  if (feedUrl?.length === 0) {
+    return;
+  }
+
+  if (!isValidHttpUrl(feedUrl)) {
+    editor.flashNotification("Please enter a valid URL!");
+    return;
+  }
+
+  const settings = await readSettings({
+    rss: { urls: [], lastUpdated: Date.now() },
+  });
+  const rssSettings = settings.rss;
+  await writeSettings({
+    rss: { lastUpdated: Date.now(), urls: [...rssSettings.urls, feedUrl] },
+  });
+
+  await editor.flashNotification("RSS Feed added!");
 }

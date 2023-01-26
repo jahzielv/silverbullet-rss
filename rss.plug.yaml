@@ -6,4 +6,8 @@ functions:
   rss:
     path: "./rss.ts:rss"
     command:
-      name: "Sync RSS Feeds"
+      name: "RSS: Sync Feeds"
+  addRssFeed:
+    path: "./rss.ts:addRssFeed"
+    command:
+      name: "RSS: Add New Feed"

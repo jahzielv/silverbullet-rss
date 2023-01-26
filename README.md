@@ -11,13 +11,15 @@ too, but what good it would be without a little magic?)
 
 ## Usage
 
-When you run the `Sync RSS Feeds` command for the first time, it should create an entry in your SETTINGS like so:
+When you run the `RSS: Sync Feeds` command for the first time, it should create an entry in your SETTINGS like so:
 ```yaml
 rss:
   lastUpdated: 1674742577077
   urls: []
 ```
 You can add RSS feed URLs to the `urls` array, and then run the command again. You should be redirected to a page called `RSS` that should have a list of posts created for each of your feeds since the last time you ran the sync.
+
+You can also run the `RSS: Add New Feed` command to add a new feed URL; just enter it into the prompt!
 
 ## Build/development
 
