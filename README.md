@@ -54,7 +54,7 @@ And run the `Plugs: Update` command in SilverBullet.
 ## Installation
 
 ```
-- github:jahziel/silverbullet-rss/rss.plug.json
+- github:jahzielv/silverbullet-rss/rss.plug.json
 ```
 
 to your `PLUGS` file, run `Plugs: Update` command and off you go!
