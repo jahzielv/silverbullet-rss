@@ -11,3 +11,7 @@ functions:
     path: "./rss.ts:addRssFeed"
     command:
       name: "RSS: Add New Feed"
+  saveRssLink:
+    path: "./rss.ts:saveRssLink"
+    command:
+      name: "RSS: Save Link"
